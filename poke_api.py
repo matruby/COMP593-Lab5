@@ -3,8 +3,7 @@ import pprint
 import requests as req
 import sys
 
-
-def fetch_poke_info(pokename="", pokedex_num=""):
+def fetch_poke_info(arg):
     """
     Retrieves Pokemon Information
 
@@ -12,29 +11,20 @@ def fetch_poke_info(pokename="", pokedex_num=""):
     :param pokedex_num: Num of Pokemon in Pokedex
     :returns: Dictionary of Pokemon Info
     """
+    # Clean up the Pokemon input
+    arg_str = str(arg)
+    clean_arg = arg.strip()
+    clean_arg = clean_arg.lower()
     # See if the Pokemon name was passed or the Pokedex number
-    if pokename:
-        print(f"Getting {pokename.title()}'s Information!!\n")
-        poke_info = req.get(f'https://pokeapi.co/api/v2/pokemon/{str(pokename)}')
-        # Check if the reponse succeded
-        if poke_info.status_code == req.codes.ok:
-            print(f'{pokename.title()} Found!\n'
-            poke_dict = poke_info.json()
-        else:
-            print(f"{pokename.title()} Doesn't Exist!\nRetry with a valid Pokemon!")
-            return None
+    print(f"Getting {clean_arg.title()}'s Information...", end='')
+    poke_info = req.get(f'https://pokeapi.co/api/v2/pokemon/{clean_arg}')
+    # Check if the reponse succeded
+    if poke_info.status_code == req.codes.ok:
+        print('Success')
+        poke_dict = poke_info.json()
+        return poke_dict
+    else:
+        print('Failure')
+        print(poke_info)
+        return None
     
-    if pokedex_num:
-        print(f"Getting {pokename.title()}'s Information!!\n")
-        poke_info = req.get(f'https://pokeapi.co/api/v2/pokemon/{str(pokedex_num)}')
-        # Check if the reponse succeded
-        if poke_info.status_code == req.codes.ok:
-            print(f'{pokename.title()} Found!\n')
-            poke_dict = poke_info.json()
-        else:
-            print(f"{pokename.title()} Doesn't Exist!\nRetry with a valid Pokemon!")
-            return None
- 
-    return poke_dict
-
-
