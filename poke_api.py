@@ -25,6 +25,6 @@ def fetch_poke_info(arg):
         return poke_dict
     else:
         print('Failure')
-        print(poke_info)
-        return None
+        print(f'Status code: {poke_info.status_code} ({poke_info.reason})')
+        sys.exit()
     

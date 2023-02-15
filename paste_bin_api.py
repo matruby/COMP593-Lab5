@@ -1,5 +1,6 @@
 
 import requests as req
+import sys
 
 def post_new_paste(title, body_text, expiration='N', listed=True):
     """
@@ -36,6 +37,8 @@ def post_new_paste(title, body_text, expiration='N', listed=True):
         return post_url.text
     else:
         print('Failure')
-        return None
+        print(f'Status code: {post_url.status_code} ({post_url.reason})')
+        print(post_url.text)
+        sys.exit()
 
 
